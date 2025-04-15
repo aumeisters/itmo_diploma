@@ -37,7 +37,7 @@ class TicketControllerImp {
       const ticket = await TicketService.getOneById(ticketId);
 
       const requester = res.locals.user;
-      console.log(ticket)
+
       if (!requester.isAdmin() && requester.id !== ticket.requester.id) {
         throw new ForbiddenError();
       }
