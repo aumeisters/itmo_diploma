@@ -55,7 +55,7 @@ class TicketServiceImpl {
       .getMany();
   }
 
-  public async getAll(): Promise<any[]> {
+  public async getAll(): Promise<Array<Omit<Ticket, 'requester'> & { requester: TicketRequester}>> {
     const tickets = await this.repository.createQueryBuilder(this.getAlias())
       .leftJoinAndSelect(`${this.getAlias()}.requester`,'requester')
       .where({ isDeleted: false })
@@ -69,7 +69,7 @@ class TicketServiceImpl {
 
   private sanitizeRequester(
     requester: User,
-  ): TicketRequester{
+  ): TicketRequester {
     const { password, role,  ...sanitizedData } = requester;
 
     return sanitizedData;
