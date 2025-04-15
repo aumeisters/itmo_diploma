@@ -5,7 +5,9 @@ import { Ticket, TicketStatus } from "../entity/Ticket.entity.js";
 import { TicketNotFounddError } from "../errors/TicketNotFound.error.js";
 import { User } from "../entity/User.entity.js";
 
-export type TicketRequester = Omit<User, 'password' | 'role' | 'isAdmin'>
+export type TicketSatiziedRequester = Omit<User, 'password' | 'role' | 'isAdmin'>;
+
+type TicketWithSatiziedRequester = Omit<Ticket, 'requester'> & { requester: TicketSatiziedRequester};
 
 class TicketServiceImpl {
 
@@ -32,7 +34,7 @@ class TicketServiceImpl {
 
   public async getOneById(
     id: number,
-  ): Promise<Ticket> {
+  ): Promise<TicketWithSatiziedRequester> {
     const ticket = await this.repository.createQueryBuilder(this.getAlias())
       .leftJoinAndSelect(`${this.getAlias()}.requester`,'requester')
       .where({ isDeleted: false, id })
@@ -42,7 +44,10 @@ class TicketServiceImpl {
       throw new TicketNotFounddError();
     };
 
-    return ticket;
+    return {
+      ...ticket,
+      requester: this.sanitizeRequester(ticket.requester),
+    }
   }
 
   public async getManyByRequesterId(
@@ -55,7 +60,7 @@ class TicketServiceImpl {
       .getMany();
   }
 
-  public async getAll(): Promise<Array<Omit<Ticket, 'requester'> & { requester: TicketRequester}>> {
+  public async getAll(): Promise<TicketWithSatiziedRequester[]> {
     const tickets = await this.repository.createQueryBuilder(this.getAlias())
       .leftJoinAndSelect(`${this.getAlias()}.requester`,'requester')
       .where({ isDeleted: false })
@@ -69,7 +74,7 @@ class TicketServiceImpl {
 
   private sanitizeRequester(
     requester: User,
-  ): TicketRequester {
+  ): TicketSatiziedRequester {
     const { password, role,  ...sanitizedData } = requester;
 
     return sanitizedData;
