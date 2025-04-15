@@ -28,4 +28,7 @@ export class Ticket extends AbstractEntity {
     default: TicketStatus.CREATED,
   })
   status!: TicketStatus;
+
+  @Column()
+  requesterId!: number;
 }
