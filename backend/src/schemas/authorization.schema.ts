@@ -1,6 +1,6 @@
-import Joi, { ObjectSchema } from "joi";
+import Joi from "joi";
 
-export const authorizationSchema: ObjectSchema = Joi.object({
+export const authorizationSchema = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required(),
 });
