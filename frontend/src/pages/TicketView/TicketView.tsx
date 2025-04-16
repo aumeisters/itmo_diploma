@@ -3,7 +3,7 @@ import { AuthValidator } from "../../components/AuthValidator/AuthValidator";
 import { Navigation } from "../../components/Navigation/Navigation";
 import { Wrapper } from "../../components/Wrapper/Wrapper.styled";
 import { useEffect, useState } from "react";
-import { fetchTicket, Ticket } from "../../api";
+import { fetchTicket, Message, Ticket } from "../../api";
 import { Loader } from "../../components/Loader/Loader.styled";
 import { ErrorContactSupport } from "../../components/ErrorContactSupport/ErrorContactSupport";
 import { TicketStatusBadge } from "../../components/TicketStatusBadge/TicketStatusBadge.styled";
@@ -67,6 +67,19 @@ export const TicketView = () => {
           </TicketViewWrapper>
         )}
         {isError && <ErrorContactSupport />}
+        
+        {/* add ticket message component */}
+
+        {Boolean(ticket?.messages.length) && (
+          ticket?.messages.map((message: Message) => (
+            <div key={message.id}>
+              <p>{message.author.isAdmin ? 'Admin' : ''}</p>
+              <p>{message.author.firstname} {message.author.firstname}</p>
+              <p>{parseDate(message.createdAt)}</p>
+              <p>{message.message}</p>
+            </div>
+          ))
+        )}
       </Wrapper>
     </AuthValidator>
   )

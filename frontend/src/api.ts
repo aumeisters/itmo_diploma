@@ -41,12 +41,29 @@ export enum TicketStatus {
   CLOSED = 'CLOSED'
 }
 
+type Author = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  isAdmin: boolean;
+}
+
+export type Message = {
+  author: Author;
+  createdAt: string;
+  id: number;
+  isDeleted: boolean;
+  message: string;
+}
+
 export type Ticket = {
   id: number;
   title: string;
   createdAt: string;
   issue: string;
-  status: TicketStatus,
+  status: TicketStatus;
+  requester: Author;
+  messages: Message[];
 }
 
 export const fetchTickets = async (): Promise<Ticket[]> => {
