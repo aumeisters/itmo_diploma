@@ -1,6 +1,7 @@
-import { Entity, Column, ManyToOne } from "typeorm"
+import { Entity, Column, ManyToOne, OneToMany } from "typeorm"
 import { AbstractEntity } from "./Abstract.entity.js";
 import { User } from "./User.entity.js";
+import { Message } from "./Message.entity.js";
 
 export enum TicketStatus {
   CREATED = 'CREATED',
@@ -31,4 +32,7 @@ export class Ticket extends AbstractEntity {
 
   @Column()
   requesterId!: number;
+
+  @OneToMany((type) => Message, (message) => message.ticket)
+  messages!: Message[];
 }

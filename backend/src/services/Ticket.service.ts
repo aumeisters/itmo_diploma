@@ -4,10 +4,20 @@ import { TicketData } from "../controllers/Ticket.controller.js";
 import { Ticket, TicketStatus } from "../entity/Ticket.entity.js";
 import { TicketNotFounddError } from "../errors/TicketNotFound.error.js";
 import { User } from "../entity/User.entity.js";
+import { Message } from "../entity/Message.entity.js";
 
-export type TicketSatiziedRequester = Omit<User, 'password' | 'role' | 'isAdmin'>;
+type SatiziedUser = Omit<User, 'password' | 'role' | 'isAdmin'>;
 
-type TicketWithSatiziedRequester = Omit<Ticket, 'requester'> & { requester: TicketSatiziedRequester};
+type MessageSatiziedAuthor = {
+  isAdmin: boolean;
+} & SatiziedUser;
+
+type SatiziedMessage = { author: MessageSatiziedAuthor } & Omit<Message, 'author'>;
+
+type TicketWithSatiziedRequesterAndAuthor = {
+  requester: SatiziedUser,
+  messages: SatiziedMessage[],
+} & Omit<Ticket, 'requester' | 'messages'>;
 
 class TicketServiceImpl {
 
@@ -34,9 +44,11 @@ class TicketServiceImpl {
 
   public async getOneById(
     id: number,
-  ): Promise<TicketWithSatiziedRequester> {
+  ): Promise<TicketWithSatiziedRequesterAndAuthor> {
     const ticket = await this.repository.createQueryBuilder(this.getAlias())
       .leftJoinAndSelect(`${this.getAlias()}.requester`,'requester')
+      .leftJoinAndSelect(`${this.getAlias()}.messages`,'messages')
+      .leftJoinAndSelect(`messages.author`,'author')
       .where({ isDeleted: false, id })
       .getOne();
 
@@ -44,10 +56,7 @@ class TicketServiceImpl {
       throw new TicketNotFounddError();
     };
 
-    return {
-      ...ticket,
-      requester: this.sanitizeRequester(ticket.requester),
-    }
+    return this.sanitizeTicket(ticket);
   }
 
   public async getManyByRequesterId(
@@ -60,24 +69,41 @@ class TicketServiceImpl {
       .getMany();
   }
 
-  public async getAll(): Promise<TicketWithSatiziedRequester[]> {
+  public async getAll(): Promise<TicketWithSatiziedRequesterAndAuthor[]> {
     const tickets = await this.repository.createQueryBuilder(this.getAlias())
       .leftJoinAndSelect(`${this.getAlias()}.requester`,'requester')
       .where({ isDeleted: false })
       .getMany();
 
-    return tickets.map(t => ({
-      ...t,
-      requester: this.sanitizeRequester(t.requester),
-    }));
+    return tickets.map(this.sanitizeTicket);
+  }
+
+  private sanitizeTicket(
+    ticket: Ticket,
+  ): TicketWithSatiziedRequesterAndAuthor {
+    return {
+      ...ticket,
+      messages: ticket.messages.map(m => ({ ...m, author: this.sanitizeAuthor(m.author)})),
+      requester: this.sanitizeRequester(ticket.requester),
+    }
   }
 
   private sanitizeRequester(
     requester: User,
-  ): TicketSatiziedRequester {
-    const { password, role,  ...sanitizedData } = requester;
+  ): SatiziedUser {
+    const { password, role, ...sanitizedData } = requester;
 
     return sanitizedData;
+  }
+
+  private sanitizeAuthor(
+    requester: User,
+  ): MessageSatiziedAuthor {
+    const isAdmin = requester.isAdmin();
+    const { password, role,  ...sanitizedData } = requester;
+
+
+    return { ...sanitizedData, isAdmin };
   }
 }
 
