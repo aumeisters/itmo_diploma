@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express"
 import { TicketService } from "../services/Ticket.service.js";
 import { ForbiddenError } from "../errors/Forbidden.error.js";
+import { TicketStatus } from "../entity/Ticket.entity.js";
+import { MessageService } from "../services/Message.service.js";
 
 export type TicketData = {
   title: string;
@@ -72,6 +74,31 @@ class TicketControllerImp {
       const tickets = await TicketService.getAll();
   
       res.status(200).json({ tickets });
+    } catch(err) {
+      next(err);
+    }
+  }
+
+  public async updateOne(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const requesterId = res.locals.user.id;
+      const ticketId = Number(req.params.id);
+      const { newStatus }: { newStatus: TicketStatus } = req.body;
+
+      await TicketService.updateOne(ticketId, newStatus);
+
+
+      await MessageService.create({
+        authorId:requesterId,
+        ticketId,
+        message: `Статус тикета обновлен: ${newStatus}`
+      })
+  
+      res.status(200).json();
     } catch(err) {
       next(err);
     }

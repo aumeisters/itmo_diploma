@@ -108,3 +108,32 @@ export const fetchTicket = async (id: number): Promise<Ticket> => {
 
   return data.ticket;
 }
+
+type CreateMessageParams = {
+  ticketId: number;
+  message: string;
+}
+  
+export const createMessage = async (params: CreateMessageParams): Promise<void> => {
+  await axios.post(`${APP_BASE_URL}/messages`, params, {
+    headers: {
+      Authorization: getUserAuthToken(),
+    }
+  });
+}
+
+type UpdateTicketStatusParams = {
+  ticketId: number;
+  newStatus: TicketStatus;
+}
+
+export const updateTicketStatus = async ({
+  ticketId,
+  newStatus,
+}: UpdateTicketStatusParams): Promise<void> => {
+  await axios.patch(`${APP_BASE_URL}/admin/tickets/${ticketId}`, { newStatus }, {
+    headers: {
+      Authorization: getUserAuthToken(),
+    }
+  });
+}

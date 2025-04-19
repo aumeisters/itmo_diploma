@@ -12,9 +12,7 @@ if (rootEl) {
   const root = ReactDOM.createRoot(rootEl);
   root.render(
     <React.StrictMode>
-        <div>
-          <RouterProvider router={router} />
-        </div>
+      <RouterProvider router={router} />
     </React.StrictMode>,
   );
 }

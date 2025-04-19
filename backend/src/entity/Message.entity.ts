@@ -15,4 +15,10 @@ export class Message extends AbstractEntity {
     length: 500,
   })
   message!: string;
+
+  @Column()
+  ticketId!: number;
+
+  @Column()
+  authorId!: number;
 }

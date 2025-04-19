@@ -1,4 +1,4 @@
-import { LoginResponse } from "../api";
+import { LoginResponse, Roles } from "../api";
 
 export const clearAuthorizationData = () => {
   window.localStorage.removeItem('authToken');
@@ -17,4 +17,7 @@ export const getUserRole = () => window.localStorage.getItem('userRole');
 
 export const getUserAuthToken = () => window.localStorage.getItem('authToken');
 
-
+export const isAdminUser = () => {
+  const userRole = getUserRole();
+  return userRole === Roles.ADMIN;
+}

@@ -72,10 +72,12 @@ class TicketServiceImpl {
   public async getAll(): Promise<TicketWithSatiziedRequesterAndAuthor[]> {
     const tickets = await this.repository.createQueryBuilder(this.getAlias())
       .leftJoinAndSelect(`${this.getAlias()}.requester`,'requester')
+      .leftJoinAndSelect(`${this.getAlias()}.messages`,'messages')
+      .leftJoinAndSelect(`messages.author`,'author')
       .where({ isDeleted: false })
       .getMany();
 
-    return tickets.map(this.sanitizeTicket);
+    return tickets.map((t) => this.sanitizeTicket(t));
   }
 
   private sanitizeTicket(
@@ -83,7 +85,7 @@ class TicketServiceImpl {
   ): TicketWithSatiziedRequesterAndAuthor {
     return {
       ...ticket,
-      messages: ticket.messages.map(m => ({ ...m, author: this.sanitizeAuthor(m.author)})),
+      messages: ticket.messages.reverse().map(m => ({ ...m, author: this.sanitizeAuthor(m.author)})),
       requester: this.sanitizeRequester(ticket.requester),
     }
   }
@@ -104,6 +106,17 @@ class TicketServiceImpl {
 
 
     return { ...sanitizedData, isAdmin };
+  }
+
+  public async updateOne(
+    ticketId: number,
+    newStatus: TicketStatus,
+  ): Promise<void> {
+    await this.repository.createQueryBuilder(this.getAlias())
+      .update(Ticket)
+      .set({ status: newStatus })
+      .where("id = :id", { id: ticketId })
+      .execute()
   }
 }
 
