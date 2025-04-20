@@ -16,7 +16,7 @@ import { ErrorText } from "../../components/ErrorText/ErrorText.styled";
 import { NoteText } from "../../components/NoteText/NoteText.styled";
 import { Path } from "../../router";
 import { TicketStatusBadge } from "../../components/TicketStatusBadge/TicketStatusBadge.styled";
-import { parseDate } from "../../utils/prepareDate";
+import { parseDatetime } from "../../utils/prepareDate";
 import { PageWrapper } from "../../components/PageWrapper/PageWrapper.styled";
 import { Title } from "../../components/Title/Title.styled";
 
@@ -80,7 +80,7 @@ export const MainInvestorView = () => {
                       {ticket.status}
                     </TicketStatusBadge>
                   </TicketCell>
-                  <TicketCell>{parseDate(ticket.createdAt)}</TicketCell>
+                  <TicketCell>{parseDatetime(ticket.createdAt)}</TicketCell>
                   <TicketCell $ctrd>
                     <Link
                       href={Path.getTicketPage(ticket.id)}

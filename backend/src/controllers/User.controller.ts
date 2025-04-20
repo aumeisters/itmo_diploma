@@ -23,6 +23,21 @@ class UserControllerImp {
       next(err);
     }
   }
+
+  public async getOneById(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = Number(req.params.id);
+      const user = await UserService.getById(userId);
+
+      res.status(200).json({ user: user.getSanitized() });
+    } catch(err) {
+      next(err);
+    }
+  }
 }
 
 export const UserController = new UserControllerImp();

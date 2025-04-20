@@ -7,18 +7,23 @@ import { fetchTicket, Ticket } from "../../api";
 import { Loader } from "../../components/Loader/Loader.styled";
 import { ErrorContactSupport } from "../../components/ErrorContactSupport/ErrorContactSupport";
 import { TicketStatusBadge } from "../../components/TicketStatusBadge/TicketStatusBadge.styled";
-import { parseDate } from "../../utils/prepareDate";
+import { parseDatetime } from "../../utils/prepareDate";
 import { Issue, TicketViewRow, TicketViewWrapper } from "./TicketView.styled";
 import { MessageList } from "../../components/MessageList/MessageList";
 import { AddMessage } from "../../components/AddMessage/AddMessage";
 import { isAdminUser } from "../../utils/storageHelper";
 import { TicketStatusChangeSelect } from "../../components/TicketStatusChangeSelect/TicketStatusChangeSelect";
 import { PageWrapper } from "../../components/PageWrapper/PageWrapper.styled";
+import { TicketInfoRow } from "./TicketInfoRow";
+import Link from "@mui/material/Link";
+import { Path } from "../../router";
 
 export const TicketView = () => {
   const [ticket, setTicket] = useState<Ticket | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+
+  const isAdmin = isAdminUser();
 
   let { id } = useParams();
 
@@ -52,23 +57,27 @@ export const TicketView = () => {
         <Wrapper $maxw={100}>
           {ticket && (
             <TicketViewWrapper>
-              <TicketViewRow>
-                <span>Проблема:&nbsp;</span>
+              {isAdmin && (
+                <TicketInfoRow title="Автор">
+                  <Link
+                    href={Path.getUserPage(ticket.requester.id)}
+                    underline="none"
+                  >
+                    {ticket.requester.firstname} {ticket.requester.lastname}
+                  </Link>
+                </TicketInfoRow>
+              )}
+              <TicketInfoRow title="Проблема">
                 {ticket.title}
-              </TicketViewRow>
-              <TicketViewRow>
-                <span>Дата создания:&nbsp;</span>
-                {parseDate(ticket.createdAt)}
-              </TicketViewRow>
-              <TicketViewRow>
-                <span>Описание проблемы:&nbsp;</span>
-                <Issue>
-                  {ticket.issue}
-                </Issue>
-              </TicketViewRow>
-              <TicketViewRow>
-                <span>Статус:&nbsp;</span>
-                {isAdminUser() ? (
+              </TicketInfoRow>
+              <TicketInfoRow title="Дата создания">
+                {parseDatetime(ticket.createdAt)}
+              </TicketInfoRow>
+              <TicketInfoRow title="Описание проблемы">
+                <Issue>{ticket.issue} </Issue>
+              </TicketInfoRow>
+              <TicketInfoRow title="Статус">
+                {isAdmin ? (
                   <TicketStatusChangeSelect
                     disabled={isLoading || isError}
                     ticketId={Number(id)}
@@ -79,7 +88,7 @@ export const TicketView = () => {
                     {ticket.status}
                   </TicketStatusBadge>
                 )}
-              </TicketViewRow>
+              </TicketInfoRow>
             </TicketViewWrapper>
           )}
           {isError && <ErrorContactSupport />}

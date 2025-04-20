@@ -3,10 +3,8 @@ import { dataSource } from "../app-data-source.js";
 import { TicketData } from "../controllers/Ticket.controller.js";
 import { Ticket, TicketStatus } from "../entity/Ticket.entity.js";
 import { TicketNotFounddError } from "../errors/TicketNotFound.error.js";
-import { User } from "../entity/User.entity.js";
+import { SatiziedUser, User } from "../entity/User.entity.js";
 import { Message } from "../entity/Message.entity.js";
-
-type SatiziedUser = Omit<User, 'password' | 'role' | 'isAdmin'>;
 
 type MessageSatiziedAuthor = {
   isAdmin: boolean;
@@ -86,24 +84,15 @@ class TicketServiceImpl {
     return {
       ...ticket,
       messages: ticket.messages.reverse().map(m => ({ ...m, author: this.sanitizeAuthor(m.author)})),
-      requester: this.sanitizeRequester(ticket.requester),
+      requester: ticket.requester.getSanitized(),
     }
-  }
-
-  private sanitizeRequester(
-    requester: User,
-  ): SatiziedUser {
-    const { password, role, ...sanitizedData } = requester;
-
-    return sanitizedData;
   }
 
   private sanitizeAuthor(
     requester: User,
   ): MessageSatiziedAuthor {
     const isAdmin = requester.isAdmin();
-    const { password, role,  ...sanitizedData } = requester;
-
+    const sanitizedData = requester.getSanitized();
 
     return { ...sanitizedData, isAdmin };
   }

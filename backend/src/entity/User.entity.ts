@@ -3,6 +3,8 @@ import { AbstractEntity } from "./Abstract.entity.js";
 import { Message } from "./Message.entity.js";
 import { Ticket } from "./Ticket.entity.js";
 
+export type SatiziedUser = Omit<User, 'password' | 'role' | 'isAdmin' | 'getSanitized'>;
+
 export enum Roles {
   ADMIN = 'ADMIN',
   USER = 'USER',
@@ -40,5 +42,11 @@ export class User extends AbstractEntity {
 
   public isAdmin(): boolean {
     return this.role === Roles.ADMIN;
+  }
+
+  public getSanitized(): SatiziedUser {
+    const { password, role, ...sanitizedData } = this;
+
+    return sanitizedData;
   }
 }

@@ -10,6 +10,7 @@ import { errorHandler } from "./middleware/ErrorHandler.middleware.js";
 import { adminRoleValidator } from "./middleware/adminRoleValidator.middleware.js";
 import { TicketAdminRouter } from "./routers/TicketAdmin.router.js";
 import { MessageRouter } from "./routers/Message.router.js";
+import { UserAdminRouter } from "./routers/UserAdmin.router.js";
 
 const app: Application = express();
 
@@ -21,6 +22,7 @@ app.use('/authorize', AuthorizationRouter);
 app.use('/tickets', authorizationValidator, TicketRouter);
 app.use('/admin/tickets', authorizationValidator, adminRoleValidator, TicketAdminRouter);
 app.use('/messages', authorizationValidator, MessageRouter);
+app.use('/admin/users', authorizationValidator, adminRoleValidator, UserAdminRouter);
 
 (async () => {
   try {

@@ -2,7 +2,7 @@ import { Repository } from "typeorm";
 import bcrypt from 'bcrypt';
 import { dataSource } from "../app-data-source.js";
 import { UserData } from "../controllers/User.controller.js";
-import { Roles, User } from "../entity/User.entity.js";
+import { Roles, SatiziedUser, User } from "../entity/User.entity.js";
 import { UserNotFoundError } from "../errors/UserNotFound.error.js";
 
 class UserServiceImpl {
@@ -13,13 +13,18 @@ class UserServiceImpl {
     this.repository = dataSource.getRepository(User);
   }
 
+  private getAlias() {
+    return 'user';
+  }
+
   public async getById(
     userId: number,
   ): Promise<User> {
-    const user = await this.repository.findOneBy({
-      id: userId,
-      isDeleted: false,
-    })
+    const user = await this.repository.createQueryBuilder(this.getAlias())
+      .leftJoinAndSelect(`${this.getAlias()}.tickets`,'tickets')
+      .where('user.isDeleted = false')
+      .andWhere('user.id = :id', { id: userId })
+      .getOne();
 
     if (!user) {
       throw new UserNotFoundError();

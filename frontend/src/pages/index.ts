@@ -5,3 +5,4 @@ export * from './Main/Main';
 export * from './Logout/Logout';
 export * from './CreateTicket/CreateTicket';
 export * from './TicketView/TicketView';
+export * from './UserView/UserView';

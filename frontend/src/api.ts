@@ -137,3 +137,24 @@ export const updateTicketStatus = async ({
     }
   });
 }
+
+export type User = {
+  id: number;
+  email: string;
+  lastname: string;
+  firstname: string;
+  isDeleted: boolean;
+  createdAt: string;
+  dateOfBirth: string;
+  tickets?: Ticket[];
+}
+
+export const fetchUser = async (id: number): Promise<User> => {
+  const { data } = await axios.get<{ user: User }>(`${APP_BASE_URL}/admin/users/${id}`, {
+    headers: {
+      Authorization: getUserAuthToken(),
+    }
+  });
+
+  return data.user;
+}

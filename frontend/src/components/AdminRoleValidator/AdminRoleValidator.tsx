@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { ReactNode, useEffect } from 'react';
 import { Path } from "../../router";
-import { getUserAuthToken } from '../../utils/storageHelper';
+import { isAdminUser } from '../../utils/storageHelper';
 
-export const AuthValidator = ({
+export const AdminRoleValidator = ({
   children,
 }: {
   children: ReactNode,
@@ -12,10 +12,10 @@ export const AuthValidator = ({
 
   useEffect(() => {
     (async () => {
-      const authToken = getUserAuthToken();
+      const isAdmin = isAdminUser();
 
-      if (!authToken) {
-        return navigate(Path.LOGIN);
+      if (!isAdmin) {
+        return navigate(Path.MAIN);
       };
     })()
   }, [])

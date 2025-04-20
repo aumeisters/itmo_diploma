@@ -9,6 +9,7 @@ import {
   Logout,
   Main,
   TicketView,
+  UserView,
 } from "./pages";
 
 export const Path = {
@@ -19,6 +20,8 @@ export const Path = {
   TICKET: '/ticket/:id',
   getTicketPage: (id: number) => `/ticket/${id}`,
   CREATE_TICKET:  '/create-ticket',
+  USER: '/user/:id',
+  getUserPage: (id: number) => `/user/${id}`,
 }
 
 export const router = createBrowserRouter([
@@ -45,6 +48,10 @@ export const router = createBrowserRouter([
   {
     path: Path.TICKET,
     Component: TicketView,
+  },
+  {
+    path: Path.USER,
+    Component: UserView,
   },
   {
     path:'*',

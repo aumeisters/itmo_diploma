@@ -1,4 +1,3 @@
-import { AuthValidator } from "../../components/AuthValidator/AuthValidator";
 import { Navigation } from "../../components/Navigation/Navigation";
 import { Wrapper } from "../../components/Wrapper/Wrapper.styled";
 import  Link  from "@mui/material/Link";
@@ -15,9 +14,10 @@ import { ErrorText } from "../../components/ErrorText/ErrorText.styled";
 import { NoteText } from "../../components/NoteText/NoteText.styled";
 import { Path } from "../../router";
 import { TicketStatusBadge } from "../../components/TicketStatusBadge/TicketStatusBadge.styled";
-import { parseDate } from "../../utils/prepareDate";
+import { parseDatetime } from "../../utils/prepareDate";
 import { PageWrapper } from "../../components/PageWrapper/PageWrapper.styled";
 import { Title } from "../../components/Title/Title.styled";
+import { AuthValidator } from "../../components/AuthValidator/AuthValidator";
 
 export const MainAdminView = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -71,14 +71,21 @@ export const MainAdminView = () => {
             <tbody>
               {Boolean(tickets.length) && tickets.map((ticket: Ticket) => (
                 <TicketRow key={ticket.id}>
-                  <TicketCell>{ticket.requester.firstname} {ticket.requester.lastname}</TicketCell>
+                  <TicketCell>
+                    <Link
+                      href={Path.getUserPage(ticket.requester.id)}
+                      underline="none"
+                      >
+                        {ticket.requester.firstname} {ticket.requester.lastname}
+                    </Link>
+                  </TicketCell>
                   <TicketCell>{ticket.title}</TicketCell>
                   <TicketCell $ctrd>
                     <TicketStatusBadge $status={ticket.status}>
                       {ticket.status}
                     </TicketStatusBadge>
                   </TicketCell>
-                  <TicketCell>{parseDate(ticket.createdAt)}</TicketCell>
+                  <TicketCell>{parseDatetime(ticket.createdAt)}</TicketCell>
                   <TicketCell $ctrd>
                     <Link
                       href={Path.getTicketPage(ticket.id)}

@@ -1,5 +1,5 @@
 import { Message } from "../../api";
-import { parseDate } from "../../utils/prepareDate";
+import { parseDatetime } from "../../utils/prepareDate";
 import { MessageAdminSvg } from "./MessageAdminSvg";
 import {
   MessageAuthor,
@@ -25,7 +25,7 @@ export const MessageList = ({
                 {message.author.isAdmin ? <MessageAdminSvg /> : ''}
                 <p>{message.author.firstname} {message.author.firstname}</p>
               </MessageAuthor>
-              <p>{parseDate(message.createdAt)}</p>
+              <p>{parseDatetime(message.createdAt)}</p>
             </MessageHeader>
             <MessageText>
               <p>{message.message}</p>

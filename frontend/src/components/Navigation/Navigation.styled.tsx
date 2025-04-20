@@ -1,10 +1,14 @@
 import styled from "styled-components";
 import { NavLink } from "react-router";
 
-export const NavigationWrapper = styled.div`
+export const NavigationWrapper = styled.div<{
+  $isAdmin?: boolean;
+}>`
   display: flex;
   justify-content: space-between;
   padding: 1rem 0;
+
+  ${(props) => props.$isAdmin && `background-color: #fad161;`}
 `;
 
 
