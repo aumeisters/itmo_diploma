@@ -12,6 +12,7 @@ type FormFieldProps = {
   maxLength: number;
   length: number;
   setLength: React.Dispatch<React.SetStateAction<number>>;
+  height?: number;
 }
 
 export const FormFieldTextArea = ({
@@ -24,9 +25,10 @@ export const FormFieldTextArea = ({
   maxLength,
   length,
   setLength,
+  height,
 }: FormFieldProps) => {
   const inputElemId = `textarea-${label}`;
-  
+
   return (
     <>
       <FormLabel htmlFor={inputElemId}>
@@ -48,6 +50,7 @@ export const FormFieldTextArea = ({
           }
         }}
         placeholder={placeholder}
+        $height={height}
       />
       <FieldTextAreaLength>{length}/{maxLength}</FieldTextAreaLength>
       {length! > maxLength && (

@@ -1,4 +1,3 @@
-export * from './About/About';
 export * from './CreateAccount/CreateAccount';
 export * from './NotFound/NotFound';
 export * from './Login/Login';

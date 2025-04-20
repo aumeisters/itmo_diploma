@@ -14,7 +14,7 @@ export const Wrapper = styled.div<{
   ${(props) => !isNullOrUndefined(props.$maxw) && `max-width: ${props.$maxw}rem;`}
   padding: 1rem;
   ${(props) => props.$bdrr && 'border-radius: 1rem;'}
-  ${(props) => props.$shdw && `box-shadow: 0.1rem 0.2rem 0.7rem #000;`}
+  ${(props) => props.$shdw && `border: 1px solid var(--text-primary);`}
   ${(props) => props.$flex && `display: flex;`}
   ${(props) => props.$fspb && `justify-content: space-between;`}
 `;

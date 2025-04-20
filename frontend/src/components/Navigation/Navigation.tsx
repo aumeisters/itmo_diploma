@@ -8,9 +8,6 @@ export function Navigation() {
         <NavigationLink to={Path.MAIN} end>
           На главную
         </NavigationLink>
-        <NavigationLink to={Path.ABOUT} end>
-          О проекте
-        </NavigationLink>
       </div>
       <div>
       <NavigationLink to={Path.LOGOUT} end>

@@ -3,7 +3,7 @@ import { MainAdminView } from "./MainAdminView";
 import { MainInvestorView } from "./MainInvestorView";
 
 export const Main = () => {
-  return  isAdminUser() ?
+  return isAdminUser() ?
     <MainAdminView /> :
     <MainInvestorView />
 }

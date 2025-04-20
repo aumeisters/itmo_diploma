@@ -18,6 +18,6 @@ export const NavigationLink = styled(NavLink)`
   color: black;
 
   &:hover {
-    box-shadow: 0rem 0.2rem 0.5rem black;
+    text-decoration: underline;
   }
 `

@@ -13,6 +13,7 @@ import { MessageList } from "../../components/MessageList/MessageList";
 import { AddMessage } from "../../components/AddMessage/AddMessage";
 import { isAdminUser } from "../../utils/storageHelper";
 import { TicketStatusChangeSelect } from "../../components/TicketStatusChangeSelect/TicketStatusChangeSelect";
+import { PageWrapper } from "../../components/PageWrapper/PageWrapper.styled";
 
 export const TicketView = () => {
   const [ticket, setTicket] = useState<Ticket | undefined>(undefined);
@@ -47,47 +48,49 @@ export const TicketView = () => {
   return (
     <AuthValidator>
       <Navigation />
-      <Wrapper $maxw={100}>
-        {ticket && (
-          <TicketViewWrapper>
-            <TicketViewRow>
-              <span>Проблема:&nbsp;</span>
-              {ticket.title}
-            </TicketViewRow>
-            <TicketViewRow>
-              <span>Дата создания:&nbsp;</span>
-              {parseDate(ticket.createdAt)}
-            </TicketViewRow>
-            <TicketViewRow>
-              <span>Описание проблемы:&nbsp;</span>
-              <Issue>
-                {ticket.issue}
-              </Issue>
-            </TicketViewRow>
-            <TicketViewRow>
-              <span>Статус:&nbsp;</span>
-              {isAdminUser() ? (
-                <TicketStatusChangeSelect
-                  disabled={isLoading || isError}
-                  ticketId={Number(id)}
-                  currectTicketStatus={ticket.status}
-                />
-              ) : (
-                <TicketStatusBadge $status={ticket.status}>
-                  {ticket.status}
-                </TicketStatusBadge>
-              )}
-            </TicketViewRow>
-          </TicketViewWrapper>
-        )}
-        {isError && <ErrorContactSupport />}
-        <AddMessage
-          ticketId={Number(id)}
-          disabled={isLoading || isError}
-          refetch={getTickets}
-        />
-        {Boolean(ticket?.messages.length) && <MessageList messages={ticket?.messages} />}
-      </Wrapper>
+      <PageWrapper>
+        <Wrapper $maxw={100}>
+          {ticket && (
+            <TicketViewWrapper>
+              <TicketViewRow>
+                <span>Проблема:&nbsp;</span>
+                {ticket.title}
+              </TicketViewRow>
+              <TicketViewRow>
+                <span>Дата создания:&nbsp;</span>
+                {parseDate(ticket.createdAt)}
+              </TicketViewRow>
+              <TicketViewRow>
+                <span>Описание проблемы:&nbsp;</span>
+                <Issue>
+                  {ticket.issue}
+                </Issue>
+              </TicketViewRow>
+              <TicketViewRow>
+                <span>Статус:&nbsp;</span>
+                {isAdminUser() ? (
+                  <TicketStatusChangeSelect
+                    disabled={isLoading || isError}
+                    ticketId={Number(id)}
+                    currectTicketStatus={ticket.status}
+                  />
+                ) : (
+                  <TicketStatusBadge $status={ticket.status}>
+                    {ticket.status}
+                  </TicketStatusBadge>
+                )}
+              </TicketViewRow>
+            </TicketViewWrapper>
+          )}
+          {isError && <ErrorContactSupport />}
+          <AddMessage
+            ticketId={Number(id)}
+            disabled={isLoading || isError}
+            refetch={getTickets}
+          />
+          {Boolean(ticket?.messages.length) && <MessageList messages={ticket?.messages} />}
+        </Wrapper>
+      </PageWrapper>
     </AuthValidator>
   )
 }

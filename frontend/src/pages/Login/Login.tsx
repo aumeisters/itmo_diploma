@@ -3,7 +3,7 @@ import { CreateAccountWrapper } from "./Login.styled";
 import { login } from "../../api";
 import { useNavigate } from "react-router-dom";
 import { Path } from "../../router";
-import { FormWrapper } from "../../components/Form/Form.styled";
+import { FormFieldWrapper, FormWrapper } from "../../components/Form/Form.styled";
 import { FormFieldInput } from "../../components/Form/FormFieldInput";
 import { FormButtons } from "../../components/Form/FormButtons";
 import { FormVisibilityButton } from "../../components/Form/FormVisibilityButton";
@@ -13,6 +13,7 @@ import { ErrorText } from "../../components/ErrorText/ErrorText.styled";
 import { PasswordInputTypes } from "../../components/Form/PasswordInput.type";
 import { validateObjectValues } from "../../utils/validateObjectValues";
 import { ErrorContactSupport } from "../../components/ErrorContactSupport/ErrorContactSupport";
+import { Title } from "../../components/Title/Title.styled";
 
 
 type FormData = {
@@ -87,32 +88,34 @@ export const Login = () => {
 
   return (
     <Wrapper $mrgt={10} $maxw={20} $shdw $bdrr>
-      <h2>Пожалуйста введите свои данные логина</h2>
+      <Title>Пожалуйста введите свои данные логина</Title>
       <FormWrapper>
-        <FormFieldInput
-          inputType='email'
-          value={email}
-          setValueFn={setEmail}
-          label='Имейл'
-          placeholder="Пожалуйста введите ваш имейл"
-          isError={isMissingEmail}
-          errorMessage="Имейл обязателен"
-        />
-        <FormFieldInput
-          inputType={passwordType}
-          value={password}
-          setValueFn={setPasswod}
-          label='Пароль'
-          placeholder="Пожалуйста введите ваш пароль"
-          isError={isMissingPassword}
-          errorMessage="Пароль обязателен"
-        >
-          <FormVisibilityButton
-            toggleVisibility={showPassword}
-            visibilityOff={passwordIsHidden}
+        <FormFieldWrapper>
+          <FormFieldInput
+            inputType='email'
+            value={email}
+            setValueFn={setEmail}
+            label='Имейл'
+            placeholder="Введите имейл"
+            isError={isMissingEmail}
+            errorMessage="Имейл обязателен"
           />
-        </FormFieldInput>
-        {isApiError && <ErrorContactSupport />}
+          <FormFieldInput
+            inputType={passwordType}
+            value={password}
+            setValueFn={setPasswod}
+            label='Пароль'
+            placeholder="Введите пароль"
+            isError={isMissingPassword}
+            errorMessage="Пароль обязателен"
+          >
+            <FormVisibilityButton
+              toggleVisibility={showPassword}
+              visibilityOff={passwordIsHidden}
+            />
+          </FormFieldInput>
+          {isApiError && <ErrorContactSupport />}
+        </FormFieldWrapper>
         <FormButtons
           disabled={isSendingData}
           isSumbitDisabled={isSendingData || isError}

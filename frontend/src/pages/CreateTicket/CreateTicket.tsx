@@ -11,6 +11,7 @@ import { Navigation } from "../../components/Navigation/Navigation";
 import { FormFieldTextArea } from "../../components/Form/FormTextArea";
 import { AuthValidator } from "../../components/AuthValidator/AuthValidator";
 import { ErrorContactSupport } from "../../components/ErrorContactSupport/ErrorContactSupport";
+import { Title } from "../../components/Title/Title.styled";
 
 type FormData = {
   title: string;
@@ -84,7 +85,7 @@ export const CreateTicket = () => {
     <AuthValidator>
       <Navigation />
       <Wrapper $mrgt={2} $maxw={30} $shdw $bdrr>
-        <h2>Пожалуйста опишите проблему</h2>
+        <Title>Пожалуйста опишите проблему</Title>
         <FormWrapper> 
           <FormFieldInput
             value={title}
@@ -104,6 +105,7 @@ export const CreateTicket = () => {
             maxLength={MAX_ALLOWED_ISSUE_LENGHT}
             length={length}
             setLength={setLength}
+            height={10}
           />
           {isApiError && <ErrorContactSupport />}
           <FormButtons

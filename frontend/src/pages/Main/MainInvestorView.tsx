@@ -8,7 +8,6 @@ import {
   TicketCellHeader,
   TicketRow,
   TicketTable,
-  Title,
 } from "./Main.styled";
 import { useEffect, useState } from "react";
 import { fetchTickets, Ticket } from "../../api";
@@ -18,6 +17,8 @@ import { NoteText } from "../../components/NoteText/NoteText.styled";
 import { Path } from "../../router";
 import { TicketStatusBadge } from "../../components/TicketStatusBadge/TicketStatusBadge.styled";
 import { parseDate } from "../../utils/prepareDate";
+import { PageWrapper } from "../../components/PageWrapper/PageWrapper.styled";
+import { Title } from "../../components/Title/Title.styled";
 
 export const MainInvestorView = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -45,8 +46,8 @@ export const MainInvestorView = () => {
 
   return (
     <AuthValidator>
-      <div>
-        <Navigation></Navigation>
+      <Navigation></Navigation>
+      <PageWrapper>
         <Wrapper $mrgt={1} $flex $fspb>
           <Title>
             Список созданных тикетов
@@ -64,8 +65,8 @@ export const MainInvestorView = () => {
           <TicketTable>
             <thead>
               <TicketRow>
-                <TicketCellHeader>Название тикета</TicketCellHeader>
-                <TicketCellHeader>Статус тикета</TicketCellHeader>
+                <TicketCellHeader>Название</TicketCellHeader>
+                <TicketCellHeader>Статус</TicketCellHeader>
                 <TicketCellHeader>Дата создания</TicketCellHeader>
                 <TicketCellHeader></TicketCellHeader>
               </TicketRow>
@@ -96,7 +97,7 @@ export const MainInvestorView = () => {
             <NoteText>Вы еще не создали ни одного тикета</NoteText>
           )}
         </Wrapper>
-      </div>
+      </PageWrapper>
     </AuthValidator>
   );
 };

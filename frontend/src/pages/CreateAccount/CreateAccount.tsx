@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import { FormWrapper } from "../../components/Form/Form.styled";
+import { FormFieldWrapper, FormWrapper } from "../../components/Form/Form.styled";
 import { FormFieldInput } from "../../components/Form/FormFieldInput";
 import { Wrapper } from "../../components/Wrapper/Wrapper.styled";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ import { validateObjectValues } from "../../utils/validateObjectValues";
 import { createAccount } from "../../api";
 import { ErrorText } from "../../components/ErrorText/ErrorText.styled";
 import { ErrorContactSupport } from "../../components/ErrorContactSupport/ErrorContactSupport";
+import { Title } from "../../components/Title/Title.styled";
 
 type FormData = {
   firstname: string;
@@ -132,76 +133,78 @@ export const CreateAccount = () => {
 
   return (
     <Wrapper $mrgt={2} $maxw={30} $shdw $bdrr>
-      <h2>Пожалуйста предоставьте данные для новой учетной записи</h2>
+      <Title>Пожалуйста предоставьте данные для новой учетной записи</Title>
       <FormWrapper> 
-        <FormFieldInput
-          value={firstname}
-          setValueFn={setFirstname}
-          label='Имя'
-          placeholder="Пожалуйста введите ваше имя"
-          isError={isMissingName}
-          errorMessage="Имя обязательно"
-        />
-        <FormFieldInput
-          value={lastname}
-          setValueFn={setLastname}
-          label='Фамилия'
-          placeholder="Пожалуйста введите вашу фамилию"
-          isError={isMissingSurname}
-          errorMessage="Фамилия обязательна"
-        />
-        <FormFieldInput
-          inputType='email'
-          value={email}
-          setValueFn={setEmail}
-          label='Имейл'
-          placeholder="Пожалуйста введите ваш имейл"
-          isError={isMissingEmail}
-          errorMessage="Имейл обязателен"
-        />
-        <FormFieldInput
-          inputType={passwordType}
-          value={password}
-          setValueFn={setPasswod}
-          label='Пароль'
-          placeholder="Пожалуйста введите ваш пароль"
-          isError={isMissingPassword}
-          errorMessage="Пароль обязателен"
-        >
-          <FormVisibilityButton
-            toggleVisibility={showPassword}
-            visibilityOff={passwordIsHidden}
+        <FormFieldWrapper>
+          <FormFieldInput
+            value={firstname}
+            setValueFn={setFirstname}
+            label='Имя'
+            placeholder="Пожалуйста введите ваше имя"
+            isError={isMissingName}
+            errorMessage="Имя обязательно"
           />
-        </FormFieldInput>
-        <FormFieldInput
-          inputType={passwordType}
-          value={repeatPassword}
-          setValueFn={setRepeatPassword}
-          label='Повторно пароль'
-          placeholder="Пожалуйста введите ваш пароль повторно"
-          isError={isMissingRepeatPassword}
-          errorMessage="Повторный пароль обязателен"
-        >
-          <FormVisibilityButton
-            toggleVisibility={showPassword}
-            visibilityOff={passwordIsHidden}
+          <FormFieldInput
+            value={lastname}
+            setValueFn={setLastname}
+            label='Фамилия'
+            placeholder="Пожалуйста введите вашу фамилию"
+            isError={isMissingSurname}
+            errorMessage="Фамилия обязательна"
           />
-        </FormFieldInput>
-        <FormFieldInput
-          inputType='date'
-          value={dateOfBirth ?? ''}
-          setValueFn={setDateOfBirth}
-          label='Дата рождения'
-          placeholder="Пожалуйста введите вашу дату рождения"
-          isError={isMissingDateOfBirth}
-          errorMessage="Дата рождения обязательна"
-        />
-        {isApiError && <ErrorContactSupport />}
-        {isPasswordDoesNotMatchError && (
-          <ErrorText>
-            Введенные пароли не совпадают
-          </ErrorText>
-        )}
+          <FormFieldInput
+            inputType='email'
+            value={email}
+            setValueFn={setEmail}
+            label='Имейл'
+            placeholder="Пожалуйста введите ваш имейл"
+            isError={isMissingEmail}
+            errorMessage="Имейл обязателен"
+          />
+          <FormFieldInput
+            inputType={passwordType}
+            value={password}
+            setValueFn={setPasswod}
+            label='Пароль'
+            placeholder="Пожалуйста введите ваш пароль"
+            isError={isMissingPassword}
+            errorMessage="Пароль обязателен"
+          >
+            <FormVisibilityButton
+              toggleVisibility={showPassword}
+              visibilityOff={passwordIsHidden}
+            />
+          </FormFieldInput>
+          <FormFieldInput
+            inputType={passwordType}
+            value={repeatPassword}
+            setValueFn={setRepeatPassword}
+            label='Повторно пароль'
+            placeholder="Пожалуйста введите ваш пароль повторно"
+            isError={isMissingRepeatPassword}
+            errorMessage="Повторный пароль обязателен"
+          >
+            <FormVisibilityButton
+              toggleVisibility={showPassword}
+              visibilityOff={passwordIsHidden}
+            />
+          </FormFieldInput>
+          <FormFieldInput
+            inputType='date'
+            value={dateOfBirth ?? ''}
+            setValueFn={setDateOfBirth}
+            label='Дата рождения'
+            placeholder="Пожалуйста введите вашу дату рождения"
+            isError={isMissingDateOfBirth}
+            errorMessage="Дата рождения обязательна"
+          />
+          {isApiError && <ErrorContactSupport />}
+          {isPasswordDoesNotMatchError && (
+            <ErrorText>
+              Введенные пароли не совпадают
+            </ErrorText>
+          )}
+        </FormFieldWrapper>
         <FormButtons
           disabled={isSendingData}
           isSumbitDisabled={isSendingData || isError}

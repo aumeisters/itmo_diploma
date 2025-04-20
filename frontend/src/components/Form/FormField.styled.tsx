@@ -15,12 +15,14 @@ export const FieldInput = styled.input<{
   font-size: 1rem;
 `;
 
-export const FieldTextArea = styled.textarea`
+export const FieldTextArea = styled.textarea<{
+  $height?: number,
+}>`
   padding: 0.5rem;
   width: 100%;
   font-size: 1rem;
   resize: none;
-  height: 10rem;
+  ${(props) => props.$height && `height: ${props.$height}rem;`};
 `;
 
 export const FieldTextAreaLength = styled.p`

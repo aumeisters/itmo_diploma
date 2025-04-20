@@ -2,7 +2,6 @@ import {
   createBrowserRouter,
 } from "react-router";
 import {
-  About,
   CreateAccount,
   CreateTicket,
   NotFound,
@@ -14,7 +13,6 @@ import {
 
 export const Path = {
   MAIN: '/',
-  ABOUT: '/about',
   LOGIN: '/login',
   LOGOUT: '/logout',
   CREATE_ACCOUNT: '/create-account',
@@ -27,10 +25,6 @@ export const router = createBrowserRouter([
   {
     path: Path.MAIN,
     Component: Main,
-  },
-  {
-    path: Path.ABOUT,
-    Component: About,
   },
   {
     path: Path.LOGIN,
