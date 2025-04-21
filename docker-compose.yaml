@@ -9,7 +9,7 @@ services:
         volumes:
             - mysql_volume:/var/lib/mysql
         ports:
-            - 3306:3306
+            - 3307:3306
         networks:
             - mysql_network
         environment:
@@ -20,6 +20,7 @@ services:
 
     server:
         container_name: server
+        restart: always
         depends_on:
             - mysql
         networks:
