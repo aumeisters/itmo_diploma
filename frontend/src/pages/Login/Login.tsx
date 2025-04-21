@@ -88,7 +88,7 @@ export const Login = () => {
 
   return (
     <Wrapper $mrgt={10} $maxw={20} $shdw $bdrr>
-      <Title>Пожалуйста введите свои данные логина</Title>
+      <Title>Пожалуйста, введите свои данные логина</Title>
       <FormWrapper>
         <FormFieldWrapper>
           <FormFieldInput
@@ -117,7 +117,7 @@ export const Login = () => {
           {isApiError && <ErrorContactSupport />}
         </FormFieldWrapper>
         <FormButtons
-          disabled={isSendingData}
+          isResetDisabled={isSendingData}
           isSumbitDisabled={isSendingData || isError}
           handleSubmit={handleLoginClick}
           handleReset={handleResetButton}

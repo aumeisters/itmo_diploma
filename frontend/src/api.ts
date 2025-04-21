@@ -124,7 +124,7 @@ export const createMessage = async (params: CreateMessageParams): Promise<void> 
 
 type UpdateTicketStatusParams = {
   ticketId: number;
-  newStatus: TicketStatus;
+  newStatus: string;
 }
 
 export const updateTicketStatus = async ({

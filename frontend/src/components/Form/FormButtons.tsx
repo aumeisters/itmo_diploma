@@ -3,7 +3,7 @@ import { FormEvent } from "react";
 import { ButtonWrapper } from "./FormButtons.styled";
 
 type FormButtonsProps = {
-  disabled: boolean;
+  isResetDisabled: boolean;
   handleSubmit: (e: FormEvent) => Promise<void>;
   handleReset: () => void;
   submitText: string,
@@ -11,7 +11,7 @@ type FormButtonsProps = {
 }
 
 export const FormButtons = ({
-  disabled,
+  isResetDisabled,
   handleSubmit,
   handleReset,
   submitText,
@@ -30,7 +30,7 @@ export const FormButtons = ({
       variant="contained"
       type="reset"
       onClick={handleReset}
-      disabled={disabled}
+      disabled={isResetDisabled}
     >
       Сброс
     </Button>

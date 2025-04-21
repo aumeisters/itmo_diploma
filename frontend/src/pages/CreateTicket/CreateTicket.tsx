@@ -12,6 +12,10 @@ import { FormFieldTextArea } from "../../components/Form/FormTextArea";
 import { AuthValidator } from "../../components/AuthValidator/AuthValidator";
 import { ErrorContactSupport } from "../../components/ErrorContactSupport/ErrorContactSupport";
 import { Title } from "../../components/Title/Title.styled";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { APP_ISSUES } from "../../config";
 
 type FormData = {
   title: string;
@@ -25,11 +29,14 @@ const defaultFormData: FormData = {
 
 const MAX_ALLOWED_ISSUE_LENGHT = 500;
 
+const NOT_IN_THE_LIST = 'NOT_IN_THE_LIST';
+
 export const CreateTicket = () => {
   const [length, setLength] = useState<number>(0)
   const [formData, setFormData] = useState<FormData>(defaultFormData);
   const [isSendingData, setIsSendingData] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+  const [shouldShowCustomIssueTitle, setShouldShowCustomIssueTitle] = useState<boolean>(false);
 
   const {
     title,
@@ -43,7 +50,7 @@ export const CreateTicket = () => {
   const navigate = useNavigate();
   const isIssueLengthExceeded = length > MAX_ALLOWED_ISSUE_LENGHT;
   
-  const handleLoginClick = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       if (validateObjectValues(formData) && !isIssueLengthExceeded) {
@@ -81,25 +88,57 @@ export const CreateTicket = () => {
     issue,
   }));
 
+  const handleIssueSelect = (e: SelectChangeEvent) => {
+    const selectedIssue = e.target.value;
+
+    if (selectedIssue === NOT_IN_THE_LIST) {
+      setShouldShowCustomIssueTitle(true);
+    }
+
+    if (selectedIssue !== NOT_IN_THE_LIST) {
+      setShouldShowCustomIssueTitle(false);
+      setTitle(selectedIssue);
+    }   
+  }
+
   return (
     <AuthValidator>
       <Navigation />
       <Wrapper $mrgt={2} $maxw={30} $shdw $bdrr>
-        <Title>Пожалуйста опишите проблему</Title>
+        <Title>Пожалуйста, опишите проблему</Title>
         <FormWrapper> 
-          <FormFieldInput
-            value={title}
-            setValueFn={setTitle}
-            label='Название проблемы'
-            placeholder="Пожалуйста введите название проблемы"
-            isError={isMissingTitle}
-            errorMessage="Название проблемы обязательно"
-          />
+          <FormControl sx={{ marginTop: '1rem', verticalAlign: 'middle' }} size="small">
+            <Select
+              onChange={handleIssueSelect}
+              disabled={isError || isSendingData}
+              defaultValue={'defaultValue'}
+            >
+              <MenuItem value='defaultValue' disabled>Выберите проблему из выпадающего списка</MenuItem>
+              {APP_ISSUES && (JSON.parse(APP_ISSUES)).map((
+                issue: string,
+              ) => (
+                <MenuItem value={issue}>
+                  {issue}
+                </MenuItem>
+              ))}
+              <MenuItem value={NOT_IN_THE_LIST}>Нет в списке</MenuItem>
+            </Select>
+          </FormControl>
+          {shouldShowCustomIssueTitle && (
+            <FormFieldInput
+              value={title}
+              setValueFn={setTitle}
+              label='Название проблемы'
+              placeholder="Введите название проблемы"
+              isError={isMissingTitle}
+              errorMessage="Название проблемы обязательно"
+            />
+          )}
           <FormFieldTextArea
             value={issue}
             setValueFn={setIssue}
             label='Проблема'
-            placeholder="Пожалуйста опишите вашу проблему"
+            placeholder="Опишите вашу проблему"
             isError={isMissingIssue}
             errorMessage="Описание проблемы обязательно"
             maxLength={MAX_ALLOWED_ISSUE_LENGHT}
@@ -109,9 +148,9 @@ export const CreateTicket = () => {
           />
           {isApiError && <ErrorContactSupport />}
           <FormButtons
-            disabled={isSendingData}
-            isSumbitDisabled={isSendingData || isError || isIssueLengthExceeded}
-            handleSubmit={handleLoginClick}
+            isResetDisabled={isSendingData}
+            isSumbitDisabled={isSendingData || isError || isIssueLengthExceeded || !validateObjectValues(formData)}
+            handleSubmit={handleSubmit}
             handleReset={handleResetButton}
             submitText="Создать"
           />

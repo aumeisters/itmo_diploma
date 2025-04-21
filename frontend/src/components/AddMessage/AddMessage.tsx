@@ -64,7 +64,7 @@ export const AddMessage = ({
         setLength={setLength}
       />
       <FormButtons
-        disabled={isSendingData}
+        isResetDisabled={isSendingData}
         isSumbitDisabled={isSendingData || isError || disabled}
         handleSubmit={handleSubmit}
         handleReset={handleReset}

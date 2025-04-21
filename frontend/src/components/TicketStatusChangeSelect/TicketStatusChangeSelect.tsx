@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { TicketStatus, updateTicketStatus } from "../../api"
 import { ErrorText } from "../ErrorText/ErrorText.styled";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
 
 type TicketStatusChangeSelectProps = {
   disabled: boolean;
@@ -16,7 +19,7 @@ export const TicketStatusChangeSelect = ({
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
   
-  const handleStatusChange = async (e: any) => {
+  const handleStatusChange = async (e: SelectChangeEvent) => {
     const newStatus = e.target.value;
 
     if (ticketId) {
@@ -34,17 +37,18 @@ export const TicketStatusChangeSelect = ({
 
   return (
     <>
-      <select
-        onChange={handleStatusChange}
-        disabled={disabled || isLoading}
-        defaultValue={currectTicketStatus}
-      >
-        <option value={TicketStatus.CREATED}>{TicketStatus.CREATED}</option>
-        <option value={TicketStatus.PENDING}>{TicketStatus.PENDING}</option>
-        <option value={TicketStatus.RESOLVED}>{TicketStatus.RESOLVED}</option>
-        <option value={TicketStatus.CLOSED}>{TicketStatus.CLOSED}</option>
-      </select>
-
+      <FormControl sx={{ verticalAlign: 'middle' }} size="small">
+        <Select
+          onChange={handleStatusChange}
+          disabled={disabled || isLoading}
+          defaultValue={currectTicketStatus}
+        >
+          <MenuItem value={TicketStatus.CREATED}>{TicketStatus.CREATED}</MenuItem>
+          <MenuItem value={TicketStatus.PENDING}>{TicketStatus.PENDING}</MenuItem>
+          <MenuItem value={TicketStatus.RESOLVED}>{TicketStatus.RESOLVED}</MenuItem>
+          <MenuItem value={TicketStatus.CLOSED}>{TicketStatus.CLOSED}</MenuItem>
+        </Select>
+      </FormControl>
       {isError && (
         <div>
           <ErrorText>Возникла ошибка при обновлении статуса тикета</ErrorText>

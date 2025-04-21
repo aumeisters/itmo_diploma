@@ -23,7 +23,7 @@ export const MessageList = ({
             <MessageHeader>
               <MessageAuthor>
                 {message.author.isAdmin ? <MessageAdminSvg /> : ''}
-                <p>{message.author.firstname} {message.author.firstname}</p>
+                <p>{message.author.firstname} {message.author.lastname}</p>
               </MessageAuthor>
               <p>{parseDatetime(message.createdAt)}</p>
             </MessageHeader>

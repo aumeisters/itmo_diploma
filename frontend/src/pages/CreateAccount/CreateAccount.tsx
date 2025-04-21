@@ -133,14 +133,14 @@ export const CreateAccount = () => {
 
   return (
     <Wrapper $mrgt={2} $maxw={30} $shdw $bdrr>
-      <Title>Пожалуйста предоставьте данные для новой учетной записи</Title>
+      <Title>Пожалуйста, предоставьте данные для новой учетной записи</Title>
       <FormWrapper> 
         <FormFieldWrapper>
           <FormFieldInput
             value={firstname}
             setValueFn={setFirstname}
             label='Имя'
-            placeholder="Пожалуйста введите ваше имя"
+            placeholder="Введите ваше имя"
             isError={isMissingName}
             errorMessage="Имя обязательно"
           />
@@ -148,7 +148,7 @@ export const CreateAccount = () => {
             value={lastname}
             setValueFn={setLastname}
             label='Фамилия'
-            placeholder="Пожалуйста введите вашу фамилию"
+            placeholder="Введите вашу фамилию"
             isError={isMissingSurname}
             errorMessage="Фамилия обязательна"
           />
@@ -157,7 +157,7 @@ export const CreateAccount = () => {
             value={email}
             setValueFn={setEmail}
             label='Имейл'
-            placeholder="Пожалуйста введите ваш имейл"
+            placeholder="Введите ваш имейл"
             isError={isMissingEmail}
             errorMessage="Имейл обязателен"
           />
@@ -166,7 +166,7 @@ export const CreateAccount = () => {
             value={password}
             setValueFn={setPasswod}
             label='Пароль'
-            placeholder="Пожалуйста введите ваш пароль"
+            placeholder="Введите ваш пароль"
             isError={isMissingPassword}
             errorMessage="Пароль обязателен"
           >
@@ -180,7 +180,7 @@ export const CreateAccount = () => {
             value={repeatPassword}
             setValueFn={setRepeatPassword}
             label='Повторно пароль'
-            placeholder="Пожалуйста введите ваш пароль повторно"
+            placeholder="Введите ваш пароль повторно"
             isError={isMissingRepeatPassword}
             errorMessage="Повторный пароль обязателен"
           >
@@ -194,7 +194,7 @@ export const CreateAccount = () => {
             value={dateOfBirth ?? ''}
             setValueFn={setDateOfBirth}
             label='Дата рождения'
-            placeholder="Пожалуйста введите вашу дату рождения"
+            placeholder="Введите вашу дату рождения"
             isError={isMissingDateOfBirth}
             errorMessage="Дата рождения обязательна"
           />
@@ -206,7 +206,7 @@ export const CreateAccount = () => {
           )}
         </FormFieldWrapper>
         <FormButtons
-          disabled={isSendingData}
+          isResetDisabled={isSendingData}
           isSumbitDisabled={isSendingData || isError}
           handleSubmit={handleLoginClick}
           handleReset={handleResetButton}
