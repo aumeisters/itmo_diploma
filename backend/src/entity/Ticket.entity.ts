@@ -12,7 +12,7 @@ export enum TicketStatus {
 
 @Entity('ticket')
 export class Ticket extends AbstractEntity {  
-  @ManyToOne((type) => User, (user) => user.id)
+  @ManyToOne(() => User, (user: User) => user.id)
   requester!: User;
 
   @Column()
@@ -33,6 +33,6 @@ export class Ticket extends AbstractEntity {
   @Column()
   requesterId!: number;
 
-  @OneToMany((type) => Message, (message) => message.ticket)
+  @OneToMany(() => Message, (message: Message) => message.ticket)
   messages!: Message[];
 }

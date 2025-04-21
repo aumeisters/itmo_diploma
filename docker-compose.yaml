@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+    mysql:
+        container_name: mysql
+        image: mysql:8.1
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        volumes:
+            - mysql_volume:/var/lib/mysql
+        ports:
+            - 3306:3306
+        networks:
+            - mysql_network
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=service
+            - MYSQL_PASSWORD=12345678
+            - MYSQL_DATABASE=development
+
+    server:
+        container_name: server
+        depends_on:
+            - mysql
+        networks:
+            - mysql_network
+        build: ./backend/
+        ports:
+            - "3001:3001"
+
+    client:
+        container_name: client
+        depends_on:
+            - server
+        networks:
+            - mysql_network
+        build: ./frontend/
+        ports:
+            - "3000:3000"
+
+volumes:
+    mysql_volume:
+
+networks:
+    mysql_network:

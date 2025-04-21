@@ -5,10 +5,10 @@ import { Ticket } from "./Ticket.entity.js";
 
 @Entity('message')
 export class Message extends AbstractEntity {
-  @ManyToOne((type) => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.id)
   author!: User;
 
-  @ManyToOne((type) => Ticket, (ticket) => ticket.messages)
+  @ManyToOne(() => Ticket, (ticket) => ticket.messages)
   ticket!: number;
 
   @Column({

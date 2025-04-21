@@ -34,10 +34,10 @@ export class User extends AbstractEntity {
   @Column()
   dateOfBirth!: Date;
 
-  @OneToMany((type) => Message, (message) => message.author)
+  @OneToMany(() => Message, (message) => message.author)
   messages!: Message[];
 
-  @OneToMany((type) => Ticket, (ticket) => ticket.requester)
+  @OneToMany(() => Ticket, (ticket) => ticket.requester)
   tickets!: Ticket[];
 
   public isAdmin(): boolean {

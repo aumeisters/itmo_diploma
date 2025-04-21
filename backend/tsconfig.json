@@ -4,6 +4,7 @@
     "emitDecoratorMetadata": true,
     "module": "NodeNext",
     "rootDir": "./src",
+    "target": "ES5",
     "moduleResolution": "nodenext",
     "outDir": "./dist",
     "esModuleInterop": true,

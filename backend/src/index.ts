@@ -6,7 +6,7 @@ import { config } from "./configuration/config.js";
 import { AuthorizationRouter } from "./routers/Authorization.router.js";
 import { TicketRouter } from "./routers/Ticket.router.js";
 import { authorizationValidator } from "./middleware/authorizationValidator.middleware.js";
-import { errorHandler } from "./middleware/ErrorHandler.middleware.js";
+import { errorHandler } from "./middleware/errorHandler.middleware.js";
 import { adminRoleValidator } from "./middleware/adminRoleValidator.middleware.js";
 import { TicketAdminRouter } from "./routers/TicketAdmin.router.js";
 import { MessageRouter } from "./routers/Message.router.js";
