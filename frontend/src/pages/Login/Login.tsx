@@ -9,7 +9,6 @@ import { FormButtons } from "../../components/Form/FormButtons";
 import { FormVisibilityButton } from "../../components/Form/FormVisibilityButton";
 import  Link  from "@mui/material/Link";
 import { Wrapper } from "../../components/Wrapper/Wrapper.styled";
-import { ErrorText } from "../../components/ErrorText/ErrorText.styled";
 import { PasswordInputTypes } from "../../components/Form/PasswordInput.type";
 import { validateObjectValues } from "../../utils/validateObjectValues";
 import { ErrorContactSupport } from "../../components/ErrorContactSupport/ErrorContactSupport";

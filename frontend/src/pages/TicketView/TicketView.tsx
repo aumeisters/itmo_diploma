@@ -8,7 +8,7 @@ import { Loader } from "../../components/Loader/Loader.styled";
 import { ErrorContactSupport } from "../../components/ErrorContactSupport/ErrorContactSupport";
 import { TicketStatusBadge } from "../../components/TicketStatusBadge/TicketStatusBadge.styled";
 import { parseDatetime } from "../../utils/prepareDate";
-import { Issue, TicketViewRow, TicketViewWrapper } from "./TicketView.styled";
+import { Issue, TicketViewWrapper } from "./TicketView.styled";
 import { MessageList } from "../../components/MessageList/MessageList";
 import { AddMessage } from "../../components/AddMessage/AddMessage";
 import { isAdminUser } from "../../utils/storageHelper";
