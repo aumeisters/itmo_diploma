@@ -14,6 +14,5 @@ export const TicketViewRow = styled.div`
 `;
 
 export const Issue = styled.div`
-  width: 30%;
   word-break: break-all;
 `;
