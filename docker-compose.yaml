@@ -37,7 +37,7 @@ services:
             - mysql_network
         build: ./frontend/
         ports:
-            - "3000:3000"
+            - "80:3000"
 
 volumes:
     mysql_volume:
